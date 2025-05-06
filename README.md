@@ -39,45 +39,45 @@ Tabi is a modern web application that enables instant money transfers between fr
 ### Installation
 
 1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/tabi.git
-cd tabi
-```
+   ```bash
+   git clone https://github.com/yourusername/tabi.git
+   cd tabi
+   ```
 
 2. Install frontend dependencies:
-```bash
-cd frontend
-npm install
-```
+   ```bash
+   cd frontend
+   npm install
+   ```
 
 3. Install backend dependencies:
-```bash
-cd ../backend
-npm install
-```
+   ```bash
+   cd ../backend
+   npm install
+   ```
 
 4. Set up environment variables:
-```bash
-# In frontend directory
-cp .env.example .env.local
+   ```bash
+   # In frontend directory
+   cp .env.example .env.local
 
-# In backend directory
-cp .env.example .env
-```
+   # In backend directory
+   cp .env.example .env
+   ```
 
 ### Development
 
 1. Start the backend server:
-```bash
-cd backend
-npm run dev
-```
+   ```bash
+   cd backend
+   npm run dev
+   ```
 
 2. Start the frontend development server:
-```bash
-cd frontend
-npm run dev
-```
+   ```bash
+   cd frontend
+   npm run dev
+   ```
 
 The application will be available at:
 - Frontend: http://localhost:3000
@@ -86,16 +86,16 @@ The application will be available at:
 ### Building for Production
 
 1. Build the backend:
-```bash
-cd backend
-npm run build
-```
+   ```bash
+   cd backend
+   npm run build
+   ```
 
 2. Build the frontend:
-```bash
-cd frontend
-npm run build
-```
+   ```bash
+   cd frontend
+   npm run build
+   ```
 
 ## Project Structure
 
