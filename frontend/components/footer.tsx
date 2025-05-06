@@ -1,9 +1,10 @@
 import Link from "next/link"
-import { Facebook, Twitter, Instagram, Linkedin, Github } from "lucide-react"
+import Image from "next/image"
+import { Facebook, Twitter, Instagram, Linkedin, Github, ArrowRight } from "lucide-react"
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-50 py-12 md:py-16 relative overflow-hidden">
+    <footer className="bg-gray-50 py-12 md:py-16 relative overflow-hidden border-t border-gray-200">
       {/* Background pattern */}
       <div className="absolute inset-0 opacity-[0.03]">
         <div
@@ -18,30 +19,28 @@ export default function Footer() {
       <div className="container mx-auto px-6">
         <div className="grid md:grid-cols-4 gap-8">
           <div className="md:col-span-1">
-            <Link href="/" className="inline-block mb-4">
-              <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-teal-400 bg-clip-text text-transparent">
+            <Link href="/" className="inline-block mb-4 flex items-center space-x-2">
+              <ArrowRight className="w-6 h-6 text-blue-500" strokeWidth={2.2} />
+              <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-sky-500 bg-clip-text text-transparent">
                 Tabi
               </span>
             </Link>
             <p className="text-gray-600 mb-4">The simplest way to send and receive money, powered by Solana.</p>
             <div className="flex space-x-4 mb-4">
-              <a href="#" className="text-gray-400 hover:text-purple-600 transition-colors">
-                <Facebook size={20} />
+              <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors">
+                <Twitter className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-purple-600 transition-colors">
-                <Twitter size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-purple-600 transition-colors">
+              {/* <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors">
                 <Instagram size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-purple-600 transition-colors">
-                <Linkedin size={20} />
+              </a> */}
+              <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors">
+                <Linkedin className="h-5 w-5" />
               </a>
               <a href="#" className="text-gray-400 hover:text-purple-600 transition-colors">
                 <Github size={20} />
               </a>
             </div>
-            <p className="text-gray-500 text-sm">© 2024 Tabi. All rights reserved.</p>
+            <p className="text-gray-500 text-sm">© 2025 Tabi. All rights reserved.</p>
           </div>
 
           <div className="md:col-span-3 grid grid-cols-2 md:grid-cols-3 gap-8">

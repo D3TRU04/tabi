@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Menu, X } from "lucide-react"
+import { Menu, X, ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
 
@@ -43,7 +44,7 @@ export default function Navbar() {
 
   return (
     <motion.header
-      className="fixed top-0 left-0 right-0 z-50 px-6 md:px-10 flex items-center"
+      className="fixed top-0 left-0 right-0 z-50 px-6 md:px-10 flex items-center border-b border-gray-200"
       initial="top"
       animate={isScrolled ? "scrolled" : "top"}
       variants={navVariants}
@@ -51,20 +52,21 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
         <motion.div variants={logoVariants} transition={{ duration: 0.3 }}>
-          <Link href="/" className="flex items-center">
-            <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-teal-400 bg-clip-text text-transparent">
+          <Link href="/" className="flex items-center space-x-2">
+            <ArrowRight className="w-6 h-6 text-blue-500" strokeWidth={2.2} />
+            <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-sky-500 bg-clip-text text-transparent">
               Tabi
             </span>
           </Link>
         </motion.div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden md:flex items-center space-x-10">
           <Link
             href="#features"
             className={cn(
-              "text-gray-600 hover:text-purple-600 transition-colors relative py-2",
-              "after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-purple-600 after:to-pink-500",
+              "text-gray-600 hover:text-blue-600 transition-colors relative py-2",
+              "after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-blue-600 after:to-sky-500",
               "after:transition-all after:duration-300 hover:after:w-full",
             )}
           >
@@ -73,39 +75,39 @@ export default function Navbar() {
           <Link
             href="#how-it-works"
             className={cn(
-              "text-gray-600 hover:text-purple-600 transition-colors relative py-2",
-              "after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-purple-600 after:to-pink-500",
+              "text-gray-600 hover:text-blue-600 transition-colors relative py-2",
+              "after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-blue-600 after:to-sky-500",
               "after:transition-all after:duration-300 hover:after:w-full",
             )}
           >
-            How it works
+            How it Works
           </Link>
           <Link
             href="#faq"
             className={cn(
-              "text-gray-600 hover:text-purple-600 transition-colors relative py-2",
-              "after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-purple-600 after:to-pink-500",
+              "text-gray-600 hover:text-blue-600 transition-colors relative py-2",
+              "after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-blue-600 after:to-sky-500",
               "after:transition-all after:duration-300 hover:after:w-full",
             )}
           >
             FAQ
           </Link>
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-10">
             <Link
               href="/login"
               className={cn(
-                "text-gray-800 font-medium hover:text-purple-600 transition-colors relative py-2",
-                "after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-purple-600 after:to-pink-500",
+                "text-gray-800 font-medium hover:text-blue-600 transition-colors relative py-2",
+                "after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-gradient-to-r after:from-blue-600 after:to-sky-500",
                 "after:transition-all after:duration-300 hover:after:w-full",
               )}
             >
-              Log in
+              Login
             </Link>
             <Link href="/signup">
               <Button
                 className={cn(
-                  "bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white rounded-full px-6",
-                  "transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-purple-200/50",
+                  "bg-gradient-to-r from-blue-600 to-sky-500 hover:from-blue-700 hover:to-sky-600 text-white rounded-full px-6",
+                  "transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-blue-200/50",
                 )}
               >
                 Get Started
@@ -137,21 +139,21 @@ export default function Navbar() {
           >
             <Link
               href="#features"
-              className="text-gray-800 hover:text-purple-600 transition-colors"
+              className="text-gray-800 hover:text-blue-600 transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               Features
             </Link>
             <Link
               href="#how-it-works"
-              className="text-gray-800 hover:text-purple-600 transition-colors"
+              className="text-gray-800 hover:text-blue-600 transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               How it works
             </Link>
             <Link
               href="#faq"
-              className="text-gray-800 hover:text-purple-600 transition-colors"
+              className="text-gray-800 hover:text-blue-600 transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
               FAQ
@@ -159,13 +161,13 @@ export default function Navbar() {
             <div className="flex flex-col space-y-4 pt-4 border-t">
               <Link
                 href="/login"
-                className="text-gray-800 font-medium hover:text-purple-600 transition-colors"
+                className="text-gray-800 font-medium hover:text-blue-600 transition-colors"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Log in
               </Link>
               <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>
-                <Button className="bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600 text-white w-full rounded-full">
+                <Button className="bg-gradient-to-r from-blue-600 to-sky-500 hover:from-blue-700 hover:to-sky-600 text-white w-full rounded-full">
                   Get Started
                 </Button>
               </Link>

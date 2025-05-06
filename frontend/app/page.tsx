@@ -40,7 +40,7 @@ export default function LandingPage() {
         <HeroSection />
         <FeatureSection />
         <HowItWorks />
-        <Testimonials />
+        {/* <Testimonials /> */}
         <CTASection />
       </main>
       <Footer />

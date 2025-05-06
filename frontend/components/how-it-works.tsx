@@ -1,8 +1,23 @@
 "use client"
 
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, Wallet, Users, Send } from "lucide-react"
 import { motion } from "framer-motion"
-import Image from "next/image"
+
+type Color = "blue" | "sky" | "cyan" | "light-blue";
+
+const colorClasses = {
+  blue: "bg-blue-100 text-blue-700",
+  sky: "bg-sky-100 text-sky-700",
+  cyan: "bg-cyan-100 text-cyan-700",
+  "light-blue": "bg-blue-50 text-blue-600",
+};
+
+const gradientClasses = {
+  blue: "from-blue-600 to-sky-500",
+  sky: "from-sky-600 to-blue-500",
+  cyan: "from-cyan-600 to-blue-500",
+  "light-blue": "from-blue-500 to-sky-400",
+};
 
 export default function HowItWorks() {
   return (
@@ -10,11 +25,11 @@ export default function HowItWorks() {
       {/* Background Elements */}
       <div className="absolute top-0 left-0 right-0 bottom-0 -z-10 overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid-pattern.png')] bg-repeat opacity-5"></div>
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-b from-purple-100/30 to-transparent rounded-full blur-3xl opacity-40"></div>
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-b from-blue-100/30 to-transparent rounded-full blur-3xl opacity-40"></div>
 
         {/* Animated shapes */}
         <motion.div
-          className="absolute bottom-[20%] left-[10%] w-12 h-12 bg-pink-300 rounded-full opacity-20"
+          className="absolute bottom-[20%] left-[10%] w-12 h-12 bg-blue-300 rounded-full opacity-20"
           animate={{
             y: [0, -20, 0],
             opacity: [0.2, 0.3, 0.2],
@@ -26,7 +41,7 @@ export default function HowItWorks() {
           }}
         />
         <motion.div
-          className="absolute top-[30%] right-[5%] w-8 h-8 bg-teal-300 rounded-full opacity-20"
+          className="absolute top-[30%] right-[5%] w-8 h-8 bg-sky-300 rounded-full opacity-20"
           animate={{
             y: [0, 15, 0],
             opacity: [0.2, 0.4, 0.2],
@@ -49,7 +64,7 @@ export default function HowItWorks() {
           transition={{ duration: 0.6 }}
         >
           <motion.div
-            className="inline-block mb-4 px-4 py-1 rounded-full bg-gradient-to-r from-teal-100 to-pink-100 text-purple-600 font-medium text-sm"
+            className="inline-block mb-4 px-4 py-1 rounded-full bg-blue-100 text-blue-700 font-medium text-sm"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -58,7 +73,7 @@ export default function HowItWorks() {
             Simple Process
           </motion.div>
           <motion.h2
-            className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-teal-500"
+            className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-sky-500"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -78,38 +93,30 @@ export default function HowItWorks() {
         </motion.div>
 
         <div className="max-w-4xl mx-auto">
-          <div className="grid gap-12 md:gap-16">
+          <div className="grid md:grid-cols-3 gap-10">
             <Step
-              number="01"
-              title="Create your account"
-              description="Enter a username to create your account. No email or phone number required."
+              number="1"
+              title="Connect Your Wallet"
+              description="Link your Solana wallet or create a new one. We support Phantom, Solflare, and other popular wallets."
+              color="blue"
               delay={0}
-              image="/step1.png"
-              color="purple"
+              icon={<Wallet className="w-7 h-7 stroke-2" />}
             />
             <Step
-              number="02"
-              title="Get your Solana wallet"
-              description="We'll automatically generate a Solana wallet for you. Your private keys stay on your device."
+              number="2"
+              title="Add Friends"
+              description="Find your friends by username or scan their QR code. No need to share private wallet addresses."
+              color="blue"
               delay={0.1}
-              image="/step2.png"
-              color="pink"
+              icon={<Users className="w-7 h-7 stroke-2" />}
             />
             <Step
-              number="03"
-              title="Find your friends"
-              description="Search for friends by username or invite them to join Tabi."
+              number="3"
+              title="Send & Split"
+              description="Send crypto instantly or split bills with friends. Choose from USDC, USDT, SOL, or other tokens."
+              color="blue"
               delay={0.2}
-              image="/step3.png"
-              color="teal"
-            />
-            <Step
-              number="04"
-              title="Send & receive money"
-              description="Instantly send or request money from your friends with just a few taps."
-              delay={0.3}
-              image="/step4.png"
-              color="yellow"
+              icon={<Send className="w-7 h-7 stroke-2" />}
             />
           </div>
         </div>
@@ -123,72 +130,32 @@ function Step({
   title,
   description,
   delay = 0,
-  image,
+  icon,
   color,
 }: {
   number: string
   title: string
   description: string
   delay?: number
-  image: string
-  color: "purple" | "pink" | "teal" | "yellow"
+  icon: React.ReactNode
+  color: "blue" | "sky" | "cyan" | "light-blue"
 }) {
-  const colorClasses = {
-    purple: "bg-purple-100 text-purple-600 border-purple-200",
-    pink: "bg-pink-100 text-pink-600 border-pink-200",
-    teal: "bg-teal-100 text-teal-600 border-teal-200",
-    yellow: "bg-yellow-100 text-yellow-600 border-yellow-200",
-  }
-
-  const gradientClasses = {
-    purple: "from-purple-400 to-purple-600",
-    pink: "from-pink-400 to-pink-600",
-    teal: "from-teal-400 to-teal-600",
-    yellow: "from-yellow-400 to-orange-500",
-  }
-
   return (
     <motion.div
-      className="flex flex-col md:flex-row items-start gap-6"
+      className="flex flex-col md:flex-col items-center gap-5 px-2 py-4"
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
       transition={{ duration: 0.5, delay }}
     >
       <motion.div className="flex-shrink-0" whileHover={{ scale: 1.1 }} transition={{ duration: 0.3 }}>
-        <div className={`w-12 h-12 ${colorClasses[color]} rounded-full flex items-center justify-center font-bold`}>
-          {number}
+        <div className={`flex items-center justify-center w-14 h-14 rounded-full bg-blue-50 text-${color}-600 opacity-90 shrink-0`}>
+          {icon}
         </div>
       </motion.div>
-      <div className="flex-1 pt-1">
-        <h3 className="text-xl font-bold mb-2">{title}</h3>
-        <p className="text-gray-600 mb-4">{description}</p>
-
-        {/* Step illustration */}
-        <div className="mt-4 bg-white p-4 rounded-xl border border-gray-100 shadow-sm max-w-xs">
-          <Image src={image || "/placeholder.svg"} width={200} height={150} alt={title} className="rounded-lg" />
-          <div className={`h-1 w-full mt-2 bg-gradient-to-r ${gradientClasses[color]} rounded-full`}></div>
-        </div>
-      </div>
-      <div className="hidden md:block flex-shrink-0 pt-1">
-        <div className="relative">
-          <ArrowRight className={`h-6 w-6 text-${color}-300`} />
-          <motion.div
-            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 rounded-full"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.6, 0.3],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Number.POSITIVE_INFINITY,
-              repeatType: "reverse",
-            }}
-            style={{
-              background: `radial-gradient(circle, rgba(124, 58, 237, 0.2) 0%, rgba(124, 58, 237, 0) 70%)`,
-            }}
-          />
-        </div>
+      <div className="flex-1 w-full flex flex-col items-center text-center">
+        <h3 className="text-xl font-bold mb-2 mt-2">{title}</h3>
+        <p className="text-gray-600 mb-0.5">{description}</p>
       </div>
     </motion.div>
   )

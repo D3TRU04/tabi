@@ -7,107 +7,58 @@ import Image from "next/image"
 
 export default function CTASection() {
   return (
-    <section className="py-20 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute top-0 left-0 right-0 bottom-0 -z-10 overflow-hidden">
-        <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-gradient-to-b from-purple-100/30 to-transparent rounded-full blur-3xl opacity-40"></div>
-      </div>
-
-      <div className="container mx-auto px-6">
-        <motion.div
-          className="max-w-5xl mx-auto relative"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6 }}
-        >
-          {/* Decorative background with rotation */}
-          <div className="absolute inset-0 bg-gradient-to-r from-purple-600 via-pink-500 to-teal-400 rounded-2xl transform rotate-1 scale-[1.03] opacity-70 blur-sm"></div>
-
+    <section className="relative py-20 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-sky-500"></div>
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
           <motion.div
-            className="bg-gradient-to-r from-purple-600 via-pink-500 to-teal-400 rounded-2xl p-10 md:p-16 text-white text-center relative overflow-hidden"
-            whileHover={{ y: -5 }}
-            transition={{ duration: 0.3 }}
+            className="inline-block mb-4 px-4 py-1 rounded-full bg-white/10 text-white font-medium text-sm"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
           >
-            {/* Decorative elements */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white rounded-full blur-3xl opacity-10 -translate-y-1/2 translate-x-1/2"></div>
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-white rounded-full blur-3xl opacity-10 translate-y-1/2 -translate-x-1/2"></div>
-
-            {/* Floating app icons */}
-            <motion.div
-              className="absolute top-10 right-10 md:right-20"
-              animate={{
-                y: [0, -10, 0],
-                rotate: [0, 5, 0],
-              }}
-              transition={{
-                duration: 4,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatType: "reverse",
-              }}
-            >
-              <Image src="/app-icon-1.png" width={60} height={60} alt="App Icon" className="rounded-xl shadow-lg" />
-            </motion.div>
-
-            <motion.div
-              className="absolute bottom-10 left-10 md:left-20"
-              animate={{
-                y: [0, 10, 0],
-                rotate: [0, -5, 0],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatType: "reverse",
-                delay: 1,
-              }}
-            >
-              <Image src="/app-icon-2.png" width={50} height={50} alt="App Icon" className="rounded-xl shadow-lg" />
-            </motion.div>
-
-            <div className="relative z-10">
-              <motion.h2
-                className="text-3xl md:text-4xl font-bold mb-6"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-              >
-                Ready to get started?
-              </motion.h2>
-              <motion.p
-                className="text-xl text-white/90 mb-8 max-w-2xl mx-auto"
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
-                Join thousands of users who are already enjoying the simplest way to send and receive money.
-              </motion.p>
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="flex flex-col sm:flex-row items-center justify-center gap-4"
-              >
-                <Link href="/signup">
-                  <Button className="bg-white text-purple-600 hover:bg-purple-50 px-8 py-6 text-lg rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg">
-                    Create your account
-                  </Button>
-                </Link>
-                <Link href="#how-it-works">
-                  <Button
-                    variant="outline"
-                    className="border-white/30 text-white hover:bg-white/10 px-8 py-6 text-lg rounded-full"
-                  >
-                    Learn more
-                  </Button>
-                </Link>
-              </motion.div>
-            </div>
+            Get Started Today
           </motion.div>
-        </motion.div>
+          <motion.h2
+            className="text-4xl font-bold text-white mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            Join the future of social payments
+          </motion.h2>
+          <motion.p
+            className="text-white/80 max-w-2xl mx-auto mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            Be part of a community that's redefining how friends share expenses. Send crypto instantly, split bills, and stay connected with your social circle.
+          </motion.p>
+          <motion.div
+            className="flex flex-col sm:flex-row gap-4 justify-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <a
+              href="#"
+              className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-full text-blue-600 bg-white hover:bg-blue-50 transition-colors"
+            >
+              Get Started Free
+            </a>
+            <a
+              href="#"
+              className="inline-flex items-center justify-center px-8 py-3 border border-white text-base font-medium rounded-full text-white hover:bg-white/10 transition-colors"
+            >
+              See How It Works
+            </a>
+          </motion.div>
+        </div>
       </div>
     </section>
   )

@@ -10,8 +10,8 @@ export default function FeatureSection() {
     <section id="features" className="py-20 bg-white relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute top-0 left-0 right-0 bottom-0 -z-10 overflow-hidden">
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-b from-purple-100/30 to-transparent rounded-full blur-3xl opacity-60"></div>
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-t from-teal-100/30 to-transparent rounded-full blur-3xl opacity-60"></div>
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-b from-blue-100/20 to-transparent rounded-full blur-3xl opacity-40"></div>
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-t from-sky-100/20 to-transparent rounded-full blur-3xl opacity-40"></div>
 
         {/* Animated patterns */}
         <div className="absolute inset-0 opacity-[0.03]">
@@ -34,7 +34,7 @@ export default function FeatureSection() {
           transition={{ duration: 0.6 }}
         >
           <motion.div
-            className="inline-block mb-4 px-4 py-1 rounded-full bg-gradient-to-r from-purple-100 to-teal-100 text-purple-600 font-medium text-sm"
+            className="inline-block mb-4 px-4 py-1 rounded-full bg-blue-100 text-blue-700 font-medium text-sm"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -43,7 +43,7 @@ export default function FeatureSection() {
             Powerful Features
           </motion.div>
           <motion.h2
-            className="text-3xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-pink-500"
+            className="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-sky-500"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -58,59 +58,52 @@ export default function FeatureSection() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Tabi combines the speed of Solana with the simplicity of modern design to create the easiest way to send
-            money.
+            Tabi combines the speed of Solana with the simplicity of modern design to create the easiest way to send and manage crypto payments.
           </motion.p>
         </motion.div>
 
         <div className="grid md:grid-cols-3 gap-8">
           <FeatureCard
             icon={<Wallet className="h-6 w-6 text-white" />}
-            title="Instant Setup"
-            description="Just enter a username and you're ready to go. No email, phone number, or lengthy verification required."
+            title="Multi-Crypto Support"
+            description="Send and receive any Solana token or stablecoin. Support for USDC, USDT, SOL, and more."
             delay={0}
-            gradient="from-purple-400 to-purple-600"
-            image="/feature-instant.png"
+            gradient="from-blue-600 to-sky-500"
           />
           <FeatureCard
             icon={<Send className="h-6 w-6 text-white" />}
-            title="Fast Transfers"
-            description="Send money to friends in seconds. Powered by Solana's lightning-fast blockchain technology."
+            title="Social Payments"
+            description="Share your payments with friends, add emojis, and keep your social circle in the loop."
             delay={0.1}
-            gradient="from-pink-400 to-purple-600"
-            image="/feature-fast.png"
+            gradient="from-blue-600 to-sky-500"
           />
           <FeatureCard
             icon={<Shield className="h-6 w-6 text-white" />}
             title="Secure & Private"
             description="Your wallet is generated client-side and your private keys never leave your device."
             delay={0.2}
-            gradient="from-teal-400 to-teal-600"
-            image="/feature-secure.png"
+            gradient="from-blue-600 to-sky-500"
           />
           <FeatureCard
             icon={<Clock className="h-6 w-6 text-white" />}
-            title="Always Available"
-            description="Send money 24/7, 365 days a year. No banking hours or holidays to worry about."
+            title="Smart Bill Splitting"
+            description="Split expenses with friends automatically. Perfect for group dinners, trips, and shared expenses."
             delay={0.3}
-            gradient="from-yellow-400 to-orange-500"
-            image="/feature-available.png"
+            gradient="from-blue-600 to-sky-500"
           />
           <FeatureCard
             icon={<Globe className="h-6 w-6 text-white" />}
-            title="Global Access"
-            description="Send money to anyone, anywhere in the world with no international fees or delays."
+            title="Payment Feed"
+            description="See what your friends are up to with a social feed of payments and activities."
             delay={0.4}
-            gradient="from-blue-400 to-indigo-600"
-            image="/feature-global.png"
+            gradient="from-blue-600 to-sky-500"
           />
           <FeatureCard
             icon={<Lock className="h-6 w-6 text-white" />}
-            title="Optional Security"
-            description="Add email or phone verification only if you want to. We prioritize your privacy."
+            title="Privacy Controls"
+            description="Choose who sees your payments and customize your privacy settings."
             delay={0.5}
-            gradient="from-purple-400 to-pink-600"
-            image="/feature-privacy.png"
+            gradient="from-blue-600 to-sky-500"
           />
         </div>
       </div>
@@ -140,14 +133,12 @@ function FeatureCard({
   description,
   delay = 0,
   gradient,
-  image,
 }: {
   icon: React.ReactNode
   title: string
   description: string
   delay?: number
   gradient: string
-  image: string
 }) {
   return (
     <motion.div
@@ -165,17 +156,6 @@ function FeatureCard({
       </div>
       <h3 className="text-xl font-bold mb-2">{title}</h3>
       <p className="text-gray-600 mb-4">{description}</p>
-
-      {/* Feature illustration */}
-      <div className="mt-4 flex justify-center">
-        <Image
-          src={image || "/placeholder.svg"}
-          width={120}
-          height={120}
-          alt={title}
-          className="opacity-90 group-hover:opacity-100 transition-opacity"
-        />
-      </div>
 
       {/* Decorative corner */}
       <div
