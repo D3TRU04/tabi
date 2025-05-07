@@ -24,7 +24,7 @@ export default function HowItWorks() {
     <section id="how-it-works" className="py-20 bg-gray-50 relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute top-0 left-0 right-0 bottom-0 -z-10 overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid-pattern.png')] bg-repeat opacity-5"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-white to-gray-50"></div>
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-b from-blue-100/30 to-transparent rounded-full blur-3xl opacity-40"></div>
 
         {/* Animated shapes */}

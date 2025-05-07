@@ -10,10 +10,9 @@ import { motion } from "framer-motion"
 import { ArrowLeft } from "lucide-react"
 import type { UserType } from "@/types/user"
 
-export default function Signup() {
+export default function Login() {
   const router = useRouter()
   const [username, setUsername] = useState("")
-  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
@@ -23,30 +22,23 @@ export default function Signup() {
 
     try {
       // In a real app, this would be an API call
-      const userData: UserType = {
-        username,
-        email,
-        privacySettings: {
-          showPayments: true,
-          showBalance: true,
-          showFriends: true
-        },
-        balance: 0,
-        friends: [],
-        transactions: [],
-        wallet: {
-          connected: false,
-          balances: {
-            SOL: 0,
-            USDC: 0
-          }
-        }
+      const userData = sessionStorage.getItem("tabiUser")
+      
+      if (!userData) {
+        throw new Error("No user data found")
       }
 
-      sessionStorage.setItem("tabiUser", JSON.stringify(userData))
+      const user = JSON.parse(userData) as UserType
+      
+      if (user.username !== username) {
+        throw new Error("Invalid username")
+      }
+
+      // In a real app, we would verify the password here
       router.push("/dashboard")
     } catch (error) {
       console.error(error)
+      // You might want to show an error message to the user here
     } finally {
       setIsLoading(false)
     }
@@ -74,7 +66,7 @@ export default function Signup() {
             transition={{ duration: 0.5 }}
           >
             <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 to-sky-500 bg-clip-text text-transparent mb-8">
-              Create an Account
+              Welcome Back
             </h1>
 
             <form onSubmit={handleSubmit} className="space-y-6">
@@ -85,18 +77,6 @@ export default function Signup() {
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   placeholder="Enter your username"
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Enter your email"
                   required
                 />
               </div>
@@ -113,19 +93,35 @@ export default function Signup() {
                 />
               </div>
 
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  <input
+                    id="remember"
+                    type="checkbox"
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  />
+                  <label htmlFor="remember" className="ml-2 block text-sm text-gray-600">
+                    Remember me
+                  </label>
+                </div>
+                <Link href="/forgot-password" className="text-sm text-blue-600 hover:text-blue-700">
+                  Forgot password?
+                </Link>
+              </div>
+
               <Button
                 type="submit"
                 className="w-full bg-gradient-to-r from-blue-600 to-sky-500 hover:from-blue-700 hover:to-sky-600 text-white"
                 disabled={isLoading}
               >
-                {isLoading ? "Creating Account..." : "Create Account"}
+                {isLoading ? "Logging in..." : "Log In"}
               </Button>
             </form>
 
             <p className="mt-6 text-center text-gray-600">
-              Already have an account?{" "}
-              <Link href="/login" className="text-blue-600 hover:text-blue-700">
-                Log in
+              Don't have an account?{" "}
+              <Link href="/signup" className="text-blue-600 hover:text-blue-700">
+                Sign up
               </Link>
             </p>
           </motion.div>
@@ -133,4 +129,4 @@ export default function Signup() {
       </div>
     </div>
   )
-}
+} 

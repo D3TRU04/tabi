@@ -7,12 +7,14 @@ import Image from "next/image"
 
 export default function CTASection() {
   return (
-    <section className="relative py-20 overflow-hidden">
+    <section className="relative py-16 md:py-20 lg:py-24 overflow-hidden">
+      {/* Background Elements */}
       <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-sky-500"></div>
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center">
+
+      <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto text-center">
           <motion.div
-            className="inline-block mb-4 px-4 py-1 rounded-full bg-white/10 text-white font-medium text-sm"
+            className="inline-block mb-4 px-4 py-1 rounded-full bg-white/20 text-white font-medium text-sm"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
@@ -21,22 +23,22 @@ export default function CTASection() {
             Get Started Today
           </motion.div>
           <motion.h2
-            className="text-4xl font-bold text-white mb-6"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 md:mb-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: 0.1 }}
           >
-            Join the future of social payments
+            Ready to transform your social payments?
           </motion.h2>
           <motion.p
-            className="text-white/80 max-w-2xl mx-auto mb-8"
+            className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-8 md:mb-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Be part of a community that's redefining how friends share expenses. Send crypto instantly, split bills, and stay connected with your social circle.
+            Join thousands of users who are already using Tabi to manage their social payments with ease.
           </motion.p>
           <motion.div
             className="flex flex-col sm:flex-row gap-4 justify-center"
@@ -45,18 +47,11 @@ export default function CTASection() {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <a
-              href="#"
-              className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-full text-blue-600 bg-white hover:bg-blue-50 transition-colors"
-            >
-              Get Started Free
-            </a>
-            <a
-              href="#"
-              className="inline-flex items-center justify-center px-8 py-3 border border-white text-base font-medium rounded-full text-white hover:bg-white/10 transition-colors"
-            >
-              See How It Works
-            </a>
+            <Link href="/signup">
+              <Button className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-full text-blue-600 bg-white hover:bg-gray-100 transition-colors shadow-lg hover:shadow-xl">
+                Get Started Free
+              </Button>
+            </Link>
           </motion.div>
         </div>
       </div>

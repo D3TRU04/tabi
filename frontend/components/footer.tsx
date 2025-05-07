@@ -48,22 +48,22 @@ export default function Footer() {
               <h3 className="font-medium text-gray-900 mb-4">Product</h3>
               <ul className="space-y-3">
                 <li>
-                  <Link href="#features" className="text-gray-600 hover:text-purple-600 transition-colors">
+                  <Link href="#features" className="text-gray-600 hover:text-blue-600 transition-colors">
                     Features
                   </Link>
                 </li>
                 <li>
-                  <Link href="#how-it-works" className="text-gray-600 hover:text-purple-600 transition-colors">
+                  <Link href="#how-it-works" className="text-gray-600 hover:text-blue-600 transition-colors">
                     How it works
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-gray-600 hover:text-purple-600 transition-colors">
+                  <Link href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                     Pricing
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-gray-600 hover:text-purple-600 transition-colors">
+                  <Link href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                     FAQ
                   </Link>
                 </li>
@@ -74,22 +74,22 @@ export default function Footer() {
               <h3 className="font-medium text-gray-900 mb-4">Company</h3>
               <ul className="space-y-3">
                 <li>
-                  <Link href="#" className="text-gray-600 hover:text-purple-600 transition-colors">
+                  <Link href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                     About
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-gray-600 hover:text-purple-600 transition-colors">
+                  <Link href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                     Blog
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-gray-600 hover:text-purple-600 transition-colors">
+                  <Link href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                     Careers
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-gray-600 hover:text-purple-600 transition-colors">
+                  <Link href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                     Contact
                   </Link>
                 </li>
@@ -100,17 +100,17 @@ export default function Footer() {
               <h3 className="font-medium text-gray-900 mb-4">Legal</h3>
               <ul className="space-y-3">
                 <li>
-                  <Link href="#" className="text-gray-600 hover:text-purple-600 transition-colors">
+                  <Link href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                     Privacy Policy
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-gray-600 hover:text-purple-600 transition-colors">
+                  <Link href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                     Terms of Service
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-gray-600 hover:text-purple-600 transition-colors">
+                  <Link href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                     Cookie Policy
                   </Link>
                 </li>
@@ -123,13 +123,13 @@ export default function Footer() {
         <div className="mt-12 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-500 text-sm mb-4 md:mb-0">Designed with ❤️ by the Tabi team. Powered by Solana.</p>
           <div className="flex space-x-6">
-            <a href="#" className="text-gray-500 hover:text-purple-600 text-sm">
+            <a href="#" className="text-gray-500 hover:text-blue-600 text-sm">
               Status
             </a>
-            <a href="#" className="text-gray-500 hover:text-purple-600 text-sm">
+            <a href="#" className="text-gray-500 hover:text-blue-600 text-sm">
               Security
             </a>
-            <a href="#" className="text-gray-500 hover:text-purple-600 text-sm">
+            <a href="#" className="text-gray-500 hover:text-blue-600 text-sm">
               Developers
             </a>
           </div>

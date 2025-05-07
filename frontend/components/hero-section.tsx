@@ -17,68 +17,65 @@ export default function HeroSection() {
       </div>
       {/* Main Hero Content */}
       <div className="relative z-10">
-        <section className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden">
+        <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 lg:pt-40 lg:pb-32 overflow-hidden">
           {/* Background Elements */}
-          <div className="absolute top-0 left-0 right-0 bottom-0 -z-10 overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-full bg-gradient-to-b from-blue-50 to-white"></div>
-            <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid-pattern.svg')] bg-repeat opacity-5"></div>
+          <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-white to-gray-50"></div>
 
-            {/* Colorful gradient blobs */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[1000px] bg-gradient-to-b from-blue-100/30 to-transparent rounded-full blur-3xl opacity-40"></div>
-            <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-gradient-to-b from-sky-100/20 to-transparent rounded-full blur-3xl opacity-40"></div>
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-t from-blue-100/20 to-transparent rounded-full blur-3xl opacity-40"></div>
+          {/* Colorful gradient blobs */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[1000px] bg-gradient-to-b from-blue-100/30 to-transparent rounded-full blur-3xl opacity-40"></div>
+          <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-gradient-to-b from-sky-100/20 to-transparent rounded-full blur-3xl opacity-40"></div>
+          <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-gradient-to-t from-blue-100/20 to-transparent rounded-full blur-3xl opacity-40"></div>
 
-            {/* Animated shapes */}
-            <motion.div
-              className="absolute top-[20%] left-[10%] w-8 h-8 bg-blue-200 rounded-full opacity-20"
-              animate={{
-                y: [0, -20, 0],
-                opacity: [0.2, 0.3, 0.2],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatType: "reverse",
-              }}
-            />
-            <motion.div
-              className="absolute top-[30%] right-[15%] w-12 h-12 bg-sky-200 rounded-full opacity-20"
-              animate={{
-                y: [0, 30, 0],
-                opacity: [0.2, 0.3, 0.2],
-              }}
-              transition={{
-                duration: 7,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatType: "reverse",
-                delay: 1,
-              }}
-            />
-            <motion.div
-              className="absolute bottom-[20%] right-[25%] w-10 h-10 bg-gray-200 rounded-full opacity-20"
-              animate={{
-                y: [0, -15, 0],
-                opacity: [0.2, 0.3, 0.2],
-              }}
-              transition={{
-                duration: 6,
-                repeat: Number.POSITIVE_INFINITY,
-                repeatType: "reverse",
-                delay: 2,
-              }}
-            />
-          </div>
+          {/* Animated shapes */}
+          <motion.div
+            className="absolute top-[20%] left-[10%] w-8 h-8 bg-blue-200 rounded-full opacity-20"
+            animate={{
+              y: [0, -20, 0],
+              opacity: [0.2, 0.3, 0.2],
+            }}
+            transition={{
+              duration: 5,
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "reverse",
+            }}
+          />
+          <motion.div
+            className="absolute top-[30%] right-[15%] w-12 h-12 bg-sky-200 rounded-full opacity-20"
+            animate={{
+              y: [0, 30, 0],
+              opacity: [0.2, 0.3, 0.2],
+            }}
+            transition={{
+              duration: 7,
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "reverse",
+              delay: 1,
+            }}
+          />
+          <motion.div
+            className="absolute bottom-[20%] right-[25%] w-10 h-10 bg-gray-200 rounded-full opacity-20"
+            animate={{
+              y: [0, -15, 0],
+              opacity: [0.2, 0.3, 0.2],
+            }}
+            transition={{
+              duration: 6,
+              repeat: Number.POSITIVE_INFINITY,
+              repeatType: "reverse",
+              delay: 2,
+            }}
+          />
 
-          <div className="container mx-auto px-6 relative">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-12 items-center">
               <motion.div
-                className="text-center md:text-left"
+                className="text-center md:text-left space-y-6"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
               >
                 <motion.div
-                  className="inline-block mb-4 px-4 py-1 rounded-full bg-blue-100 text-blue-700 font-medium text-sm"
+                  className="inline-block px-4 py-1.5 rounded-full bg-blue-100 text-blue-700 font-medium text-sm"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
@@ -86,7 +83,7 @@ export default function HeroSection() {
                   The Future of Crypto Payments
                 </motion.div>
                 <motion.h1
-                  className="text-4xl md:text-6xl font-bold leading-tight mb-6"
+                  className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.1 }}
@@ -97,7 +94,7 @@ export default function HeroSection() {
                   </span>
                 </motion.h1>
                 <motion.p
-                  className="text-xl text-gray-600 mb-8"
+                  className="text-lg md:text-xl text-gray-600 max-w-xl"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.2 }}
@@ -105,7 +102,7 @@ export default function HeroSection() {
                   Tabi makes sending stablecoins and crypto as easy as sending a message. Split bills, track spending, and get AI-powered insights - all powered by Solana.
                 </motion.p>
                 <motion.div
-                  className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4"
+                  className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 pt-4"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: 0.3 }}

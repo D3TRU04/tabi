@@ -1,46 +1,39 @@
 "use client"
 
 import { useEffect } from "react"
-import Navbar from "@/components/navbar"
+import { LandingNavBar } from "@/components/landing-navbar"
 import HeroSection from "@/components/hero-section"
-import FeatureSection from "@/components/feature-section"
+import FeaturesSection from "@/components/features-section"
 import HowItWorks from "@/components/how-it-works"
-import Testimonials from "@/components/testimonials"
 import CTASection from "@/components/cta-section"
 import Footer from "@/components/footer"
 
 export default function LandingPage() {
-  // Add framer-motion to the page
   useEffect(() => {
     // Smooth scroll for anchor links
-    const handleAnchorClick = (e: MouseEvent) => {
+    const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement
-      const anchor = target.closest("a")
-
-      if (anchor && anchor.hash && anchor.hash.startsWith("#")) {
+      const anchor = target.closest('a')
+      if (anchor?.hash) {
         e.preventDefault()
-        const targetElement = document.querySelector(anchor.hash)
-        if (targetElement) {
-          window.scrollTo({
-            top: targetElement.getBoundingClientRect().top + window.scrollY - 100,
-            behavior: "smooth",
-          })
+        const element = document.querySelector(anchor.hash)
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' })
         }
       }
     }
 
-    document.addEventListener("click", handleAnchorClick)
-    return () => document.removeEventListener("click", handleAnchorClick)
+    document.addEventListener('click', handleClick)
+    return () => document.removeEventListener('click', handleClick)
   }, [])
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
+      <LandingNavBar />
       <main>
         <HeroSection />
-        <FeatureSection />
+        <FeaturesSection />
         <HowItWorks />
-        {/* <Testimonials /> */}
         <CTASection />
       </main>
       <Footer />
