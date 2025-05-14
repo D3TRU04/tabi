@@ -1,0 +1,73 @@
+// backend/prisma/schema.prisma
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+// Users, wallets, friendships, and transactions for a simple payment system
+
+model User {
+  id               String     @id @default(uuid())
+  email            String     @unique
+  password         String
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+
+  // One-to-one: each user has one wallet
+  wallet           Wallet?
+
+  // Friend relations
+  sentFriends      Friend[]   @relation("user_sent_friends")
+  receivedFriends  Friend[]   @relation("user_received_friends")
+}
+
+model Wallet {
+  id        String        @id @default(uuid())
+  address   String        @unique
+  user      User          @relation(fields: [userId], references: [id])
+  userId    String        @unique
+  balance   Float         @default(0)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  // Transactions where this wallet is the sender
+  sentTxns  Transaction[] @relation("SentTransactions")
+  // Transactions where this wallet is the receiver
+  recvTxns  Transaction[] @relation("ReceivedTransactions")
+}
+
+model Friend {
+  id         String   @id @default(uuid())
+
+  // The user who sent the friend request
+  user       User     @relation("user_sent_friends", fields: [userId], references: [id])
+  userId     String
+
+  // The user who received the friend request
+  friend     User     @relation("user_received_friends", fields: [friendId], references: [id])
+  friendId   String
+
+  createdAt  DateTime @default(now())
+}
+
+model Transaction {
+  id        String    @id @default(uuid())
+  amount    Float
+
+  // Which wallet sent the payment
+  from      Wallet    @relation("SentTransactions", fields: [fromId], references: [id])
+  fromId    String
+
+  // Which wallet received the payment
+  to        Wallet    @relation("ReceivedTransactions", fields: [toId], references: [id])
+  toId      String
+
+  status    String    @default("PENDING")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
