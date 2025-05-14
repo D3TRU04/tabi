@@ -5,16 +5,20 @@ const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:300
 // Validate Supabase environment variables
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseServiceKey = process.env.NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY;
 
-if (!supabaseUrl || !supabaseAnonKey) {
+if (!supabaseUrl || !supabaseAnonKey || !supabaseServiceKey) {
   console.error('Missing Supabase environment variables:', {
     url: supabaseUrl ? 'present' : 'missing',
-    key: supabaseAnonKey ? 'present' : 'missing'
+    anonKey: supabaseAnonKey ? 'present' : 'missing',
+    serviceKey: supabaseServiceKey ? 'present' : 'missing'
   });
   throw new Error('Missing required Supabase environment variables');
 }
 
+// Create two clients - one for regular operations and one for admin operations
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
+const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
 export interface User {
   id: string;
@@ -40,6 +44,11 @@ export interface Transaction {
   updated_at: string;
 }
 
+interface SupabaseError {
+  code?: string;
+  message?: string;
+}
+
 class ApiService {
   private async getAuthHeader() {
     const { data: { session } } = await supabase.auth.getSession();
@@ -56,22 +65,21 @@ class ApiService {
     try {
       console.log('Starting registration process...');
       
-      // First check if Supabase is properly initialized
       if (!supabase) {
         throw new Error('Supabase client is not initialized');
       }
 
-      console.log('Attempting to sign up with Supabase...');
+      // First create the auth user
       const { data: authData, error: authError } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/dashboard`,
+        },
       });
-
-      console.log('Auth response:', { authData, authError });
 
       if (authError) {
         console.error('Auth error:', authError);
-        // Extract cooldown period from error message if it's a rate limit error
         if (authError.message.includes('For security purposes')) {
           const match = authError.message.match(/(\d+)\s+seconds/);
           if (match) {
@@ -83,160 +91,187 @@ class ApiService {
       }
 
       if (!authData.user) {
-        console.error('No user data returned from signup');
         throw new Error('Failed to create user');
       }
 
-      console.log('Signup successful, signing in user...');
-      
-      // Sign in the user immediately after signup to establish a session
-      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
+      // Wait a short moment to ensure the user is fully created in auth
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
-      if (signInError) {
-          console.error('Error signing in after signup:', signInError);
-          // Clean up the auth user if sign-in fails
-          try {
-              if (authData.user) await supabase.auth.admin.deleteUser(authData.user.id);
-          } catch (deleteError) {
-              console.error('Failed to clean up auth user:', deleteError);
-          }
-          throw new Error('Failed to sign in after signup.');
-      }
-
-      if (!signInData.session) {
-          console.error('No session established after sign-in.');
-          // Clean up the auth user if no session
-          try {
-              if (authData.user) await supabase.auth.admin.deleteUser(authData.user.id);
-          } catch (deleteError) {
-              console.error('Failed to clean up auth user:', deleteError);
-          }
-          throw new Error('Failed to establish session after signup.');
-      }
-
-      console.log('User signed in successfully, session established:', signInData.session);
-
-      // Wait a short moment to ensure the user is fully created - removed as fetching session might be enough
-      // await new Promise(resolve => setTimeout(resolve, 1000));
-
-      console.log('Creating user profile...');
-      
-      // First verify we can access the profiles table
-      const { data: tableCheck, error: tableError } = await supabase
+      // Check if username already exists in profiles
+      const { data: existingUsername, error: usernameCheckError } = await supabase
         .from('profiles')
         .select('id')
-        .limit(1);
-
-      if (tableError) {
-        console.error('Table access error:', tableError);
-        throw new Error('Cannot access profiles table. Please contact support.');
-      }
-
-      // Create user profile in the database
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          id: authData.user.id,
-          username,
-          wallet_address: walletAddress || null,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        })
-        .select()
+        .eq('username', username)
         .single();
 
-      if (profileError) {
-        console.error('Profile creation error:', {
-          error: profileError,
-          message: profileError && 'message' in profileError ? profileError.message : 'No message provided',
-          details: profileError && 'details' in profileError ? profileError.details : 'No details provided',
-          hint: profileError && 'hint' in profileError ? profileError.hint : 'No hint provided',
-          code: profileError && 'code' in profileError ? profileError.code : 'No code provided'
+      if (existingUsername) {
+        // Clean up the auth user
+        try {
+          await supabase.auth.admin.deleteUser(authData.user.id);
+        } catch (deleteError) {
+          console.error('Failed to clean up auth user:', deleteError);
+        }
+        throw new Error('Username already taken');
+      }
+
+      // Check if wallet address already exists in users
+      const { data: existingWallet, error: walletCheckError } = await supabase
+        .from('users')
+        .select('id')
+        .eq('wallet_address', walletAddress)
+        .single();
+
+      if (existingWallet) {
+        // Clean up the auth user
+        try {
+          await supabase.auth.admin.deleteUser(authData.user.id);
+        } catch (deleteError) {
+          console.error('Failed to clean up auth user:', deleteError);
+        }
+        throw new Error('Wallet address already registered');
+      }
+
+      // Create user in users table
+      try {
+        console.log('Creating user record with data:', {
+          id: authData.user.id,
+          wallet_address: walletAddress,
+          username,
         });
 
-        // Handle specific error cases
-        if (profileError && 'code' in profileError && profileError.code === '23505') { // Unique violation
-          if (profileError && 'message' in profileError && profileError.message.includes('username')) {
-            throw new Error('Username already taken');
+        // Use admin client for user creation
+        const { data: userData, error: userError } = await supabaseAdmin
+          .from('users')
+          .insert({
+            id: authData.user.id,
+            email: email,
+            wallet_address: walletAddress,
+            username,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          })
+          .select()
+          .single();
+
+        if (userError) {
+          console.error('User creation error details:', {
+            code: userError.code,
+            message: userError.message,
+            details: userError.details,
+            hint: userError.hint
+          });
+
+          // Clean up the auth user
+          try {
+            await supabaseAdmin.auth.admin.deleteUser(authData.user.id);
+          } catch (deleteError) {
+            console.error('Failed to clean up auth user:', deleteError);
           }
+
+          if (userError.code === '23505') {
+            if (userError.message?.includes('wallet_address')) {
+              throw new Error('Wallet address already registered');
+            }
+            if (userError.message?.includes('username')) {
+              throw new Error('Username already taken');
+            }
+            if (userError.message?.includes('email')) {
+              throw new Error('Email already registered');
+            }
+          }
+          throw new Error(`Failed to create user record: ${userError.message || 'Unknown error'}`);
         }
 
-        // If we get here, it's an unexpected error
-        const errorMessage = profileError && 'message' in profileError ? profileError.message : 'An unexpected error occurred during profile creation.';
-
-        // Clean up the auth user if profile creation fails
-        try {
-            if (authData.user) await supabase.auth.admin.deleteUser(authData.user.id);
-        } catch (deleteError) {
-            console.error('Failed to clean up auth user after profile creation failure:', deleteError);
+        if (!userData) {
+          throw new Error('User record was not created');
         }
 
-        throw new Error(`Failed to create profile: ${errorMessage}`);
-      }
+        console.log('User record created successfully:', userData);
 
-      if (!profileData) {
-        throw new Error('Profile was not created successfully');
-      }
+        // Create profile in profiles table
+        console.log('Creating profile record...');
+        const { data: profileData, error: profileError } = await supabaseAdmin
+          .from('profiles')
+          .insert({
+            id: authData.user.id,
+            username,
+            wallet_address: walletAddress,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          })
+          .select()
+          .single();
 
-      console.log('Constructing final user object...');
-      try {
-          const user = {
+        if (profileError) {
+          console.error('Profile creation error details:', {
+            code: profileError.code,
+            message: profileError.message,
+            details: profileError.details,
+            hint: profileError.hint
+          });
+
+          // Clean up both auth user and user record
+          try {
+            await supabaseAdmin.auth.admin.deleteUser(authData.user.id);
+            await supabaseAdmin.from('users').delete().eq('id', userData.id);
+          } catch (deleteError) {
+            console.error('Failed to clean up records:', deleteError);
+          }
+          throw new Error(`Failed to create user profile: ${profileError.message || 'Unknown error'}`);
+        }
+
+        if (!profileData) {
+          throw new Error('Profile record was not created');
+        }
+
+        console.log('Profile record created successfully:', profileData);
+
+        return {
+          user: {
             id: authData.user.id,
             email: authData.user.email!,
             username,
-            wallet_address: walletAddress || '',
-          };
-
-          console.log('Registration successful, returning user:', user);
-          return { user };
-      } catch (finalError) {
-          console.error('Error constructing final user object:', finalError);
-          // Clean up the auth user if final construction fails
-          try {
-              if (authData.user) await supabase.auth.admin.deleteUser(authData.user.id);
-          } catch (deleteError) {
-              console.error('Failed to clean up auth user after final error:', deleteError);
+            wallet_address: walletAddress,
           }
-          throw new Error('An error occurred during the final steps of registration.');
+        };
+      } catch (error) {
+        console.error('Registration process error:', error);
+        if (error instanceof Error) {
+          throw error;
+        }
+        throw new Error('An unexpected error occurred during registration');
       }
     } catch (error) {
-      console.error('Registration error:', {
-        error,
-        errorMessage: error instanceof Error ? error.message : 'Unknown error',
-        errorStack: error instanceof Error ? error.stack : undefined
-      });
-      
-      if (error instanceof Error) {
-        if (error.message.includes('already registered')) {
-          throw new Error('Email already exists');
-        }
-        if (error.message.includes('duplicate key')) {
-          throw new Error('Username already taken');
-        }
-        if (error.message.includes('network')) {
-          throw new Error('Network error. Please check your connection.');
-        }
-        if (error.message.includes('Profiles table not found')) {
-          throw new Error('System error. Please contact support.');
-        }
-      }
+      console.error('Registration error:', error);
       throw error;
     }
   }
 
-  async login(email: string, password: string): Promise<{ user: User }> {
+  async login(emailOrUsername: string, password: string): Promise<{ user: User }> {
     try {
+      console.log('Attempting login...');
+      
+      // First check if the input is a username
+      const { data: userData, error: userError } = await supabase
+        .from('users')
+        .select('email')
+        .eq('username', emailOrUsername)
+        .single();
+
+      let email = emailOrUsername;
+      if (userData?.email) {
+        email = userData.email;
+      }
+
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) {
+        console.error('Login error:', error);
         if (error.message.includes('Invalid login credentials')) {
-          throw new Error('Invalid email or password');
+          throw new Error('Invalid username/email or password');
         }
         throw new Error(error.message);
       }
@@ -245,26 +280,29 @@ class ApiService {
         throw new Error('User not found');
       }
 
-      // Get user profile
-      const { data: profile, error: profileError } = await supabase
-        .from('profiles')
+      console.log('Auth successful, fetching user profile...');
+      // Get user profile from users table
+      const { data: userProfile, error: profileError } = await supabase
+        .from('users')
         .select('*')
         .eq('id', data.user.id)
         .single();
 
       if (profileError) {
+        console.error('User fetch error:', profileError);
         throw new Error('Failed to fetch user profile');
       }
 
       return {
         user: {
           id: data.user.id,
-          email: data.user.email!,
-          username: profile.username,
-          wallet_address: profile.wallet_address,
+          email: userProfile.email,
+          username: userProfile.username,
+          wallet_address: userProfile.wallet_address,
         },
       };
     } catch (error) {
+      console.error('Login process error:', error);
       throw error;
     }
   }

@@ -68,8 +68,12 @@ export default function Signup() {
     }
 
     try {
-      const { user } = await apiService.register(email, password, username, "")
-      router.push("/dashboard")
+      await apiService.register(email, password, username, "")
+      toast({
+        title: "Registration successful",
+        description: "Please check your email to verify your account.",
+      })
+      router.push("/login")
     } catch (error) {
       console.error(error)
       let errorMessage = "Failed to create account. Please try again."

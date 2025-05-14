@@ -1,6 +1,6 @@
 # Tabi - Instant Money Transfers
 
-Tabi is a modern web application that enables instant money transfers between friends using Solana blockchain technology. Built with Next.js and Express, it provides a seamless and secure way to send and request money.
+Tabi is a modern web application that enables instant money transfers between friends using Solana blockchain technology. Built with Next.js and Express, it provides a seamless and secure way to send and request money using stablecoins (USDC, USDT) and SOL. Whether you're splitting bills, paying for dinner, or sending gifts, Tabi makes cryptocurrency transfers as simple as sending a text message while maintaining the security and speed of the Solana blockchain.
 
 ## Features
 
@@ -11,6 +11,12 @@ Tabi is a modern web application that enables instant money transfers between fr
 - 🌙 Dark/Light mode support
 - 📊 Transaction history
 - 🔔 Real-time notifications
+- 💰 Multi-crypto support (SOL, USDC, USDT)
+- 🤝 Social payments with emoji support
+- 🔒 Client-side wallet generation
+- 📱 Smart bill splitting
+- 🌐 Payment feed with social features
+- 🔐 Privacy controls and settings
 
 ## Tech Stack
 
@@ -21,6 +27,9 @@ Tabi is a modern web application that enables instant money transfers between fr
 - Radix UI
 - Framer Motion
 - Solana Web3.js
+- Lucide Icons
+- Date-fns
+- Supabase
 
 ### Backend
 - Express.js
@@ -28,6 +37,8 @@ Tabi is a modern web application that enables instant money transfers between fr
 - Node.js
 - CORS
 - Environment Variables
+- Solana Program (Rust)
+- SPL Token
 
 ## Getting Started
 

@@ -9,7 +9,8 @@
     "build": "tsc",
     "test": "jest",
     "anchor:build": "cd programs/payment && anchor build",
-    "anchor:deploy": "cd programs/payment && anchor deploy"
+    "anchor:deploy": "cd programs/payment && anchor deploy",
+    "setup:supabase": "ts-node src/scripts/setup-supabase.ts"
   },
   "keywords": [],
   "author": "",
