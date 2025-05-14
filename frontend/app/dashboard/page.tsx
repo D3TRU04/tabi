@@ -17,8 +17,8 @@ import {
 } from "@/components/ui/dialog"
 import { Settings, LogOut, Send, Plus, ArrowDownLeft, ArrowUpRight, ArrowRight, Eye, Shield, Wallet, User, Activity } from "lucide-react"
 import { truncateAddress } from "@/lib/utils"
-import { mockFriends, mockTransactions, mockPaymentFeed } from "@/lib/mock-data"
-import type { UserType, TransactionType, PaymentFeedItem } from "@/lib/types"
+import type { TransactionType, PaymentFeedItem } from "@/lib/types"
+import type { UserType } from "@/types/user"
 import Link from "next/link"
 import Footer from "@/components/footer"
 import { motion } from "framer-motion"
@@ -31,6 +31,7 @@ import { PaymentForm } from "@/components/payment-form"
 import type { Wallet as WalletType } from "@/types/user"
 import { getAccount, getAssociatedTokenAddress } from "@solana/spl-token"
 import { NavBar } from "@/components/navbar"
+import { apiService } from "../../src/services/api"
 
 // USDC mint address on devnet
 const USDC_MINT = new PublicKey("4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU")
@@ -39,6 +40,7 @@ export default function Dashboard() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [user, setUser] = useState<UserType | null>(null)
+  const [paymentFeed, setPaymentFeed] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isScrolled, setIsScrolled] = useState(false)
   const [showAddFriendDialog, setShowAddFriendDialog] = useState(false)
@@ -58,14 +60,20 @@ export default function Dashboard() {
   }, [])
 
   useEffect(() => {
-    const userData = sessionStorage.getItem("tabiUser")
-    if (!userData) {
-      router.push("/login")
-      return
+    async function fetchData() {
+      setIsLoading(true)
+      try {
+        const userData = await apiService.getUserProfile()
+        setUser(userData)
+        const feed = await apiService.getPaymentFeed()
+        setPaymentFeed(feed)
+      } catch (err) {
+        router.push("/login")
+      } finally {
+        setIsLoading(false)
+      }
     }
-    const parsedUser = JSON.parse(userData) as UserType
-    setUser(parsedUser)
-    setIsLoading(false)
+    fetchData()
   }, [router])
 
   useEffect(() => {
@@ -155,12 +163,16 @@ export default function Dashboard() {
     }
   }
 
-  if (isLoading || !user) {
+  if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-white to-gray-50">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     )
+  }
+
+  if (!user) {
+    return <div>Not logged in</div>
   }
 
   return (
@@ -243,6 +255,10 @@ export default function Dashboard() {
               <Card className="p-6 bg-white shadow-lg border border-gray-100">
                 <h3 className="text-lg font-semibold mb-4">Send Payment</h3>
                 <PaymentForm />
+                <div className="mt-6">
+                  <PaymentFeed items={paymentFeed} />
+                  {paymentFeed.length === 0 && <div className="text-gray-500 mt-4">No payments yet.</div>}
+                </div>
               </Card>
             </TabsContent>
 
@@ -296,20 +312,19 @@ export default function Dashboard() {
           <div className="py-4 space-y-4">
             <div className="space-y-2">
               <label className="text-sm font-medium">Show Payments</label>
-              <select
-                className="w-full p-2 border rounded-md"
-                value={user.privacySettings.showPayments}
-                onChange={(e) =>
-                  handleUpdatePrivacySettings({
-                    ...user.privacySettings,
-                    showPayments: e.target.value as "public" | "friends" | "private",
-                  })
-                }
-              >
-                <option value="public">Public</option>
-                <option value="friends">Friends Only</option>
-                <option value="private">Private</option>
-              </select>
+              <div className="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  checked={user.privacySettings.showPayments}
+                  onChange={(e) =>
+                    handleUpdatePrivacySettings({
+                      ...user.privacySettings,
+                      showPayments: e.target.checked,
+                    })
+                  }
+                />
+                <span className="text-sm">Show my payments to friends</span>
+              </div>
             </div>
             <div className="space-y-2">
               <label className="text-sm font-medium">Show Balance</label>
@@ -328,19 +343,19 @@ export default function Dashboard() {
               </div>
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium">Show Activity</label>
+              <label className="text-sm font-medium">Show Friends</label>
               <div className="flex items-center space-x-2">
                 <input
                   type="checkbox"
-                  checked={user.privacySettings.showActivity}
+                  checked={user.privacySettings.showFriends}
                   onChange={(e) =>
                     handleUpdatePrivacySettings({
                       ...user.privacySettings,
-                      showActivity: e.target.checked,
+                      showFriends: e.target.checked,
                     })
                   }
                 />
-                <span className="text-sm">Show my activity in the payment feed</span>
+                <span className="text-sm">Show my friends list</span>
               </div>
             </div>
           </div>

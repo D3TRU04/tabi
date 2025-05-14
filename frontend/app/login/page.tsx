@@ -9,10 +9,13 @@ import { Label } from "@/components/ui/label"
 import { motion } from "framer-motion"
 import { ArrowLeft } from "lucide-react"
 import type { UserType } from "@/types/user"
+import { apiService } from "../../src/services/api"
+import { useToast } from "@/hooks/use-toast"
 
 export default function Login() {
   const router = useRouter()
-  const [username, setUsername] = useState("")
+  const { toast } = useToast()
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
@@ -21,24 +24,30 @@ export default function Login() {
     setIsLoading(true)
 
     try {
-      // In a real app, this would be an API call
-      const userData = sessionStorage.getItem("tabiUser")
-      
-      if (!userData) {
-        throw new Error("No user data found")
-      }
-
-      const user = JSON.parse(userData) as UserType
-      
-      if (user.username !== username) {
-        throw new Error("Invalid username")
-      }
-
-      // In a real app, we would verify the password here
+      const { user } = await apiService.login(email, password)
       router.push("/dashboard")
     } catch (error) {
       console.error(error)
-      // You might want to show an error message to the user here
+      let errorMessage = "Failed to log in. Please try again."
+      
+      if (error instanceof Error) {
+        // Handle specific error cases
+        if (error.message.includes("Invalid login credentials")) {
+          errorMessage = "Invalid email or password. Please try again."
+        } else if (error.message.includes("User not found")) {
+          errorMessage = "No account found with this email. Please sign up first."
+        } else if (error.message.includes("Invalid password")) {
+          errorMessage = "Incorrect password. Please try again."
+        } else {
+          errorMessage = error.message
+        }
+      }
+
+      toast({
+        title: "Login Failed",
+        description: errorMessage,
+        variant: "destructive",
+      })
     } finally {
       setIsLoading(false)
     }
@@ -71,12 +80,13 @@ export default function Login() {
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
-                  id="username"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Enter your username"
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Enter your email"
                   required
                 />
               </div>

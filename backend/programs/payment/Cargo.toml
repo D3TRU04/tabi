@@ -1,0 +1,13 @@
+[package]
+name = "payment"
+version = "0.1.0"
+description = "Payment program for Tabi"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "payment"
+
+[dependencies]
+solana-program = "1.16.0"
+spl-token = { version = "4.0.0", features = ["no-entrypoint"] } 

@@ -6,7 +6,7 @@ import { ChevronDown } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
-import Navbar from "@/components/navbar"
+import { LandingNavBar } from "@/components/landing-navbar"
 import Footer from "@/components/footer"
 
 type FAQItem = {
@@ -81,7 +81,7 @@ export default function FAQPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
+      <LandingNavBar />
       
       {/* Header */}
       <header className="bg-gradient-to-r from-blue-600 to-sky-500 text-white py-20 mt-[90px]">
