@@ -44,6 +44,25 @@ export interface Transaction {
   updated_at: string;
 }
 
+export interface BillShare {
+  id: string;
+  userId: string;
+  amount: number;
+  paid: boolean;
+  // optionally include userEmail if your backend populates it
+  userEmail?: string;
+}
+
+export interface Bill {
+  id: string;
+  title: string;
+  total: number;
+  createdAt: string;
+  createdById: string;
+  shares: BillShare[];
+}
+
+
 interface SupabaseError {
   code?: string;
   message?: string;
@@ -372,6 +391,70 @@ class ApiService {
     }
     return response.json();
   }
+    /** Fetch all bills you created or owe on */
+    async getBills(): Promise<{ bills: Bill[] }> {
+      const headers = await this.getAuthHeader();
+      const response = await fetch(`${BACKEND_URL}/bills`, {
+        method: 'GET',
+        headers
+      });
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error || 'Failed to fetch bills');
+      }
+      return response.json();
+    }
+  
+    /** Create a new bill split */
+    async createBill(payload: {
+      title: string;
+      total: number;
+      participants: string[];
+    }): Promise<{ bill: Bill }> {
+      const headers = await this.getAuthHeader();
+      const response = await fetch(`${BACKEND_URL}/bills`, {
+        method: 'POST',
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error || 'Failed to create bill');
+      }
+      return response.json();
+    }
+  
+    /** Mark a share as paid */
+    async payShare(shareId: string): Promise<{ success: boolean }> {
+      const headers = await this.getAuthHeader();
+      const response = await fetch(`${BACKEND_URL}/bills/${shareId}/pay`, {
+        method: 'POST',
+        headers
+      });
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.error || 'Failed to mark share paid');
+      }
+      return response.json();
+    }
+    /** Get your friend list */
+async getFriends(): Promise<{ friends: { id: string; email: string }[] }> {
+  const headers = await this.getAuthHeader();
+  const response = await fetch(`${BACKEND_URL}/friends`, {
+    method: 'GET',
+    headers
+  });
+  if (!response.ok) {
+    const err = await response.json();
+    throw new Error(err.error || 'Failed to fetch friends');
+  }
+  return response.json();
+}
+
+  
 }
 
 export const apiService = new ApiService(); 
