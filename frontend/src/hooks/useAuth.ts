@@ -2,61 +2,59 @@
 // All authentication logic has been removed from the app.
 
 import { useEffect, useState } from 'react';
-import { apiService, User } from '../services/api';
+
+type User = {
+  id?: string;
+  email: string;
+  username: string;
+  wallet_address?: string;
+};
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      setLoading(false);
-      return;
-    }
-
-    // TODO: Add an endpoint to validate token and get user data
-    setLoading(false);
+    // Example: set mock user on mount
+    setUser({
+      id: 'demo',
+      email: 'demo@tabi.com',
+      username: 'demo_user',
+      wallet_address: 'DemoWalletAddress123',
+    });
   }, []);
 
-  const signIn = async (email: string, password: string) => {
-    try {
-      setError(null);
-      const { user } = await apiService.login(email, password);
-      setUser(user);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred during sign in');
-      throw err;
-    }
+  const login = async (email: string, password: string) => {
+    // No-op or mock login
+    setUser({
+      id: 'demo',
+      email,
+      username: 'demo_user',
+      wallet_address: 'DemoWalletAddress123',
+    });
   };
 
-  const signUp = async (email: string, password: string, username: string, walletAddress: string) => {
-    try {
-      setError(null);
-      const { user } = await apiService.register(email, password, username, walletAddress);
-      setUser(user);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred during sign up');
-      throw err;
-    }
+  const logout = async () => {
+    setUser(null);
   };
+
+  const signIn = async (email: string, password: string) => login(email, password);
+
+  const signUp = async (email: string, password: string, username: string, walletAddress: string) => login(email, password);
+
+  const getProfile = async () => {};
 
   const signOut = async () => {
-    try {
-      setError(null);
-      apiService.logout();
-      setUser(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred during sign out');
-      throw err;
-    }
+    setUser(null);
   };
 
   return {
     user,
     loading,
     error,
+    login,
+    logout,
     signIn,
     signUp,
     signOut,

@@ -3,7 +3,13 @@
 
 import React, { createContext, useContext } from 'react';
 import { useAuth } from '../hooks/useAuth';
-import { User } from '../services/api';
+
+type User = {
+  id?: string;
+  email: string;
+  username: string;
+  wallet_address?: string;
+};
 
 interface AuthContextType {
   user: User | null;
