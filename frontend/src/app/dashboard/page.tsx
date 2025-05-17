@@ -16,7 +16,6 @@ import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { Connection, LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
 import { PaymentForm } from "@/components/payment-form";
 import { NavBar } from "@/components/navbar";
-import { apiService } from "@/services/api";
 import { getAssociatedTokenAddress, getAccount } from "@solana/spl-token";
 import type { UserType } from "@/types/user";
 import { formatDistanceToNow } from "date-fns";
@@ -159,10 +158,10 @@ function DashboardContent() {
     async function fetchData() {
       setIsLoading(true);
       try {
-        const userData = await apiService.getUserProfile();
-        const mappedUser: UserType = {
-          username: userData.username,
-          email: userData.email,
+        // Use mock user and payment feed data since Supabase/apiService is removed
+        setUser({
+          username: "demo_user",
+          email: "demo@tabi.com",
           privacySettings: {
             showPayments: true,
             showBalance: true,
@@ -172,14 +171,12 @@ function DashboardContent() {
           friends: [],
           transactions: [],
           wallet: {
-            connected: false,
-            address: userData.wallet_address || "",
-            balances: { SOL: 0, USDC: 0 },
+            connected: true,
+            address: "DemoWalletAddress123",
+            balances: { SOL: 2.5, USDC: 150 },
           },
-        };
-        setUser(mappedUser);
-        const feed = await apiService.getPaymentFeed();
-        setPaymentFeed(feed);
+        });
+        setPaymentFeed([]); // or use mockPaymentFeed if you want to show demo data
       } catch (err) {
         // router.push("/login"); // Removed to prevent redirect loop
         // Optionally, set an error state here
