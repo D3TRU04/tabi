@@ -5,6 +5,15 @@ import { supabase } from './config/supabase';
 import { connection } from './config/solana';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { User } from '@supabase/supabase-js';
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: User;
+    }
+  }
+}
 
 // Load environment variables
 dotenv.config();

@@ -1,3 +1,6 @@
+// AUTH DISABLED - All authentication, login, register, and user profile related code is no longer used.
+// You can safely ignore or remove these functions.
+
 import { createClient } from '@supabase/supabase-js';
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3000';

@@ -1,51 +1,46 @@
-# Tabi - Instant Money Transfers
+# Tabi - Modern Crypto Payments & Bill Splitting
 
-Tabi is a modern web application that enables instant money transfers between friends using Solana blockchain technology. Built with Next.js and Express, it provides a seamless and secure way to send and request money using stablecoins (USDC, USDT) and SOL. Whether you're splitting bills, paying for dinner, or sending gifts, Tabi makes cryptocurrency transfers as simple as sending a text message while maintaining the security and speed of the Solana blockchain.
+Tabi is a modern web application for instant crypto payments, bill splitting, and AI-powered financial insights, built on the Solana blockchain. With a beautiful Next.js frontend and a robust Express backend, Tabi makes sending stablecoins (USDC), SOL, and splitting group expenses seamless and social. Enjoy a premium, mobile-friendly UI, real-time activity feed, and smart AI advice based on your wallet and transaction history.
 
 ## Features
 
-- 💸 Instant money transfers
-- 🔐 Secure Solana blockchain integration
-- 👥 Friend management
-- 📱 Responsive design
-- 🌙 Dark/Light mode support
-- 📊 Transaction history
-- 🔔 Real-time notifications
-- 💰 Multi-crypto support (SOL, USDC, USDT)
-- 🤝 Social payments with emoji support
-- 🔒 Client-side wallet generation
-- 📱 Smart bill splitting
-- 🌐 Payment feed with social features
-- 🔐 Privacy controls and settings
+- ⚡ Instant crypto & stablecoin transfers (SOL, USDC)
+- 🧮 Smart bill splitting (equal, by items, custom)
+- 🤖 AI Financial Advisor (personalized advice based on your activity & wallet)
+- 📊 Modern dashboard with tabs: Overview, Payments, Bill Splitter, AI Advisor
+- 🧾 Real-time payment feed & transaction history
+- 🔒 Secure Solana wallet connection (Phantom, Solflare, etc.)
+- 🌈 Beautiful, responsive, glassmorphic UI
+- 🧠 No friend management required—just send to usernames or wallet addresses
+- 🛡️ Privacy controls
+- 🌐 FAQ & landing page with modern design
 
 ## Tech Stack
 
 ### Frontend
-- Next.js 14
+- Next.js 15 (App Router)
 - TypeScript
 - Tailwind CSS
 - Radix UI
 - Framer Motion
-- Solana Web3.js
+- Solana Web3.js & SPL Token
 - Lucide Icons
 - Date-fns
-- Supabase
+- Supabase (for user data)
 
 ### Backend
-- Express.js
-- TypeScript
+- Express.js (TypeScript)
 - Node.js
-- CORS
-- Environment Variables
-- Solana Program (Rust)
-- SPL Token
+- Solana Web3.js & SPL Token
+- Supabase
+- CORS, dotenv, security middleware
 
 ## Getting Started
 
 ### Prerequisites
 - Node.js (v18 or higher)
 - npm or yarn
-- Solana CLI (optional, for development)
+- (Optional) Solana CLI for local wallet/devnet
 
 ### Installation
 
@@ -108,23 +103,32 @@ The application will be available at:
    npm run build
    ```
 
+### Deploying to Vercel
+
+1. Push your code to GitHub, GitLab, or Bitbucket.
+2. Go to [vercel.com](https://vercel.com) and sign up/log in.
+3. Click "New Project" and import your repo.
+4. Vercel auto-detects Next.js. Click "Deploy".
+5. Set any required environment variables in the Vercel dashboard.
+6. Your site will be live at a Vercel URL (e.g., `https://yourproject.vercel.app`).
+
 ## Project Structure
 
 ```
 tabi/
-├── frontend/           # Next.js frontend
-│   ├── app/           # App router pages
-│   ├── components/    # Reusable components
+├── frontend/           # Next.js frontend (App Router)
+│   ├── app/           # Pages & routes
+│   ├── components/    # Reusable UI components
 │   ├── hooks/         # Custom React hooks
-│   ├── lib/          # Utility functions
-│   └── public/       # Static assets
-├── backend/          # Express backend
+│   ├── lib/           # Utility functions
+│   └── public/        # Static assets
+├── backend/           # Express backend
 │   ├── src/
-│   │   ├── routes/   # API routes
+│   │   ├── routes/    # API routes
 │   │   ├── controllers/ # Route controllers
-│   │   ├── models/   # Data models
+│   │   ├── models/    # Data models
 │   │   └── middleware/ # Custom middleware
-│   └── dist/        # Compiled JavaScript
+│   └── dist/          # Compiled JavaScript
 └── .gitignore
 ```
 
@@ -145,4 +149,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [Next.js](https://nextjs.org/)
 - [Solana](https://solana.com/)
 - [Tailwind CSS](https://tailwindcss.com/)
-- [Radix UI](https://www.radix-ui.com/) 
+- [Radix UI](https://www.radix-ui.com/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [Supabase](https://supabase.com/) 

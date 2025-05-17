@@ -1,3 +1,6 @@
+// AUTH DISABLED - AuthContext is no longer used.
+// All authentication logic has been removed from the app.
+
 import React, { createContext, useContext } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { User } from '../services/api';

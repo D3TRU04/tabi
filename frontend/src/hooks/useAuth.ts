@@ -1,3 +1,6 @@
+// AUTH DISABLED - useAuth hook is no longer used.
+// All authentication logic has been removed from the app.
+
 import { useEffect, useState } from 'react';
 import { apiService, User } from '../services/api';
 
